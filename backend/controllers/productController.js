@@ -1,6 +1,8 @@
 const Product = require("../models/productModel");
+const ApiFeatures = require("../utils/apiFeatures");
 const ErrorHandler = require("../utils/errorHandler");
 
+const resultsPerPage = 2;
 //create Product -- Admin
 exports.createProduct = async (req, res, next) => {
   const product = await Product.create(req.body);
@@ -12,7 +14,12 @@ exports.createProduct = async (req, res, next) => {
 
 // Read Products
 exports.getAllProducts = async (req, res, next) => {
-  const product = await Product.find();
+  const apiFeatures = new ApiFeatures(Product.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultsPerPage);
+
+  const product = await apiFeatures.query;
   res.status(200).json({ message: "Route Working!!!", product });
 };
 
@@ -22,10 +29,7 @@ exports.updateProduct = async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
-    return res.status(500).json({
-      success: false,
-      message: "Product not found",
-    });
+    throw new ErrorHandler("product not found!!!!!", 501);
   }
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -44,10 +48,7 @@ exports.updateProduct = async (req, res, next) => {
 exports.deleteProduct = async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
-    return res.status(500).json({
-      success: false,
-      message: "Product not found",
-    });
+    throw new ErrorHandler("product not found!!!!!", 501);
   }
   await product.remove();
 
