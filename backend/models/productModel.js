@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: [true, "Please Enter product name"],
+    required: [true, "Please Enter product name"],
+    trim: true,
   },
   productTags: [
     {
@@ -97,4 +98,4 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-module.exports = new mongoose.model("Products", productSchema);
+module.exports = mongoose.model("Products", productSchema);
