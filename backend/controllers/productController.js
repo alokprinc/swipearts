@@ -5,6 +5,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const resultsPerPage = 2;
 //create Product -- Admin
 exports.createProduct = async (req, res, next) => {
+  req.body.user = req.user.id;
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,

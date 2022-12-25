@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const ErrorHandler = require("../utils/errorHandler");
 const sendToken = require("../utils/sendToken");
+const sendEmail = require("../utils/sendEmail");
 
 // Register User
 exports.registerUser = async (req, res, next) => {
@@ -49,4 +50,42 @@ exports.logout = async (req, res, next) => {
     success: true,
     message: "Logged Out",
   });
+};
+
+// Forgot Password
+exports.forgotPassword = async (req, res, next) => {
+  // GETTING USER
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    throw new ErrorHandler("User Not Found", 404);
+  }
+  // GENRATING TOKEN
+  const resetToken = user.getResetPasswordToken();
+  // SAVING USER AFTER GETTING resetPassowrdToken in model
+  await user.save({ validateBeforeSave: false });
+
+  // URL
+  const resetPasswordURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/password/reset/${resetToken}`;
+
+  const message = `Your Password reset token is :- \n\n ${resetPasswordURL} \n\n Please reset your password on then given link`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "SwipeArts Password Recovery",
+      message: message,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Email sent to ${user.email} successfully`,
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    throw new ErrorHandler(err.message, 500);
+  }
 };
