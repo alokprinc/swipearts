@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const ErrorHandler = require("../utils/errorHandler");
 const sendToken = require("../utils/sendToken");
 const sendEmail = require("../utils/sendEmail");
-
+const crypto = require("crypto");
 // Register User
 exports.registerUser = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -88,4 +88,34 @@ exports.forgotPassword = async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
     throw new ErrorHandler(err.message, 500);
   }
+};
+
+// RESET PASSWORD
+exports.resetPassword = async (req, res, next) => {
+  // creating token hash
+  const resetPasswordTokenHash = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken: resetPasswordTokenHash,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw new ErrorHandler("Invalid or Expired Token", 400);
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    throw new ErrorHandler("Passwords do not Match", 400);
+  }
+
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  sendToken(user, 200, res);
 };
