@@ -2,7 +2,6 @@ const Product = require("../models/productModel");
 const ApiFeatures = require("../utils/apiFeatures");
 const ErrorHandler = require("../utils/errorHandler");
 
-const resultsPerPage = 2;
 //create Product -- Admin
 exports.createProduct = async (req, res, next) => {
   req.body.user = req.user.id;
@@ -15,13 +14,15 @@ exports.createProduct = async (req, res, next) => {
 
 // Read Products
 exports.getAllProducts = async (req, res, next) => {
+  const resultsPerPage = 10;
+  const productCount = await Product.countDocuments();
   const apiFeatures = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter()
     .pagination(resultsPerPage);
 
-  const product = await apiFeatures.query;
-  res.status(200).json({ message: "Route Working!!!", product });
+  const products = await apiFeatures.query;
+  res.status(200).json({ message: "Route Working!!!", products, productCount });
 };
 
 // Update Product -- Admin
@@ -86,12 +87,12 @@ exports.createProductReview = async (req, res, next) => {
   const product = await Product.findById(productId);
 
   const isReviewed = product.reviews.forEach((review) => {
-    review.user.toString() === req.user._id.toString();
+    review.user + "" === req.user._id + "";
   });
 
   if (isReviewed) {
     product.reviews.forEach((review) => {
-      if (review.user.toString() === req.user._id.toString()) {
+      if (review.user + "" === req.user._id + "") {
         review.rating = rating;
         review.comment = comment;
       }

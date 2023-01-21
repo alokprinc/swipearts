@@ -1,0 +1,22 @@
+.carousel {
+  position: relative;
+  top: 0px;
+  margin-top: 70px;
+  margin-bottom: 10px;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+@media screen and (max-width: 899px) {
+  .carousel {
+    margin-top: 8rem;
+  }
+}
+@media screen and (max-width: 599px) {
+  .carousel {
+    margin-top: 4rem;
+  }
+}
