@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonBases from "./ButtonBases";
+import ButtonBases from "../ShopByCatagory/ButtonBases";
 
 const Product = () => {
   return (

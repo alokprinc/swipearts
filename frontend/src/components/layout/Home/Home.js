@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { ShopByOccasions } from "./ShopByOccasions";
-import { ShowProducts } from "./ShowProducts";
-import Slider from "./Slider";
-import Product from "./Product";
+import Product from "../ShopByCatagory/Product";
+import { ShopByOccasions } from "../ShopByOcassion/ShopByOccasions";
+import { ShowProducts } from "../Products/ShowProducts";
+import Slider from "../Slider/Slider";
 
 const Home = () => {
   return (

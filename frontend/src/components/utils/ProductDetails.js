@@ -254,7 +254,7 @@ const ProductDetails = () => {
                       <Rating {...options} />
                       <Typography className="detailsBlock-2-span">
                         {" "}
-                        ({product.numOfReviews > 0
+                        ({product.numOfReviews >= 1
                           ? product.numOfReviews
                           : 0}{" "}
                         Reviews)

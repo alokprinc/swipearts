@@ -1,7 +1,7 @@
 import React from "react";
 // import Carousel from "react-elastic-carousel";
 import { grey, red, blue, green, yellow } from "@mui/material/colors";
-import GridCard from "../utils/GridCard";
+import GridCard from "../../utils/GridCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";

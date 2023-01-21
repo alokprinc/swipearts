@@ -7,7 +7,7 @@ import { red, purple } from "@mui/material/colors";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import ProductDetails from "./components/utils/ProductDetails";
-import Home from "./components/layout/Home";
+import Home from "./components/layout/Home/Home";
 import Footer from "./components/layout/Footer";
 
 //////////////////////////////////////////////////

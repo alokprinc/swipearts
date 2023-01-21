@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
-import ProductCard from "../utils/ProductCard";
+import ProductCard from "../../utils/ProductCard";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, getProduct } from "../../actions/productAction";
+import { clearErrors, getProduct } from "../../../actions/productAction";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Paper, Typography } from "@mui/material";
-import Loader from "./Loader/Loader";
+import Loader from "../Loader/Loader";
 import { useAlert } from "react-alert";
 import { blue, grey } from "@mui/material/colors";
 

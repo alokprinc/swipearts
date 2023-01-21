@@ -3,9 +3,10 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
-import Banner1 from "../../asset/img10.jpg";
-import Banner2 from "../../asset/img9.jpg";
-import Banner3 from "../../asset/img9.jpg";
+import Banner1 from "../../../asset/img10.jpg";
+
+import Banner2 from "../../../asset/img9.jpg";
+import Banner3 from "../../../asset/img9.jpg";
 import { red, purple, blue, green, grey, yellow } from "@mui/material/colors";
 import { Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
