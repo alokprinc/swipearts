@@ -25,6 +25,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { blue, green, grey, red, yellow } from "@mui/material/colors";
 import Rating from "react-stars";
 import ReviewCard from "./ReviewCard";
+import Loader from "../layout/Loader/Loader";
 
 //---------------------------------------
 const StyledStack = styled(Stack)(() => ({
@@ -139,7 +140,7 @@ const ProductDetails = () => {
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
-  console.log("Product here => ", product);
+  // console.log("Product here => ", product);
   useEffect(() => {
     dispatch(getProductDetails(params.id));
   }, [dispatch, params.id]);
@@ -181,12 +182,7 @@ const ProductDetails = () => {
   return (
     <>
       {loading ? (
-        <Skeleton
-          variant="rectangular"
-          width={"100vw"}
-          height={"40vmax"}
-          animation="wave"
-        />
+        <Loader />
       ) : (
         <StyledStack
           className="ProductDetails"
