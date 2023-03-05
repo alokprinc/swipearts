@@ -5,8 +5,21 @@ import GridCard from "../../utils/GridCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Paper, Typography } from "@mui/material";
-
+import { Box, Paper, Typography } from "@mui/material";
+const occasions = [
+  "Housewarming",
+  "Marriage",
+  "Birthday",
+  "Anniversary",
+  "Engagement",
+  "Baby Shower",
+  "Mother's Day",
+  "Father's Day",
+  "Holi",
+  "Christmas & NewYear",
+  "Navratri",
+  "Valentine's Day",
+];
 export const ShopByOccasions = () => {
   return (
     <Paper
@@ -23,23 +36,25 @@ export const ShopByOccasions = () => {
       <Typography sx={{ m: 2, fontSize: "20px" }}>Shop By Occasion</Typography>
       <Grid
         container
-        spacing={2}
+        spacing={1}
         alignItems="center"
         justifyContent="center"
         sx={{
           background: "none",
         }}
       >
-        <GridCard />
-        <GridCard />
-        <GridCard />
-        <GridCard />
-        <GridCard />
-        <GridCard />
-        <GridCard />
-        <GridCard />
-        <GridCard />
-        <GridCard />
+        <GridCard occasion={occasions[0]} />
+        <GridCard occasion={occasions[1]} />
+        <GridCard occasion={occasions[2]} />
+        <GridCard occasion={occasions[3]} />
+        <GridCard occasion={occasions[4]} />
+        <GridCard occasion={occasions[5]} />
+        <GridCard occasion={occasions[6]} />
+        <GridCard occasion={occasions[7]} />
+        <GridCard occasion={occasions[8]} />
+        <GridCard occasion={occasions[9]} />
+        <GridCard occasion={occasions[10]} />
+        <GridCard occasion={occasions[11]} />
       </Grid>
     </Paper>
   );

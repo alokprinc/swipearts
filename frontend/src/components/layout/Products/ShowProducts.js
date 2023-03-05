@@ -8,22 +8,36 @@ import { Box, Paper, Typography } from "@mui/material";
 import Loader from "../Loader/Loader";
 import { useAlert } from "react-alert";
 import { blue, grey } from "@mui/material/colors";
+import { useLocation } from "react-router-dom";
+//-------------------------------------
 
 //-------------------------------------
+// search params picking function
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 export const ShowProducts = () => {
   const alert = useAlert();
+
   const dispatch = useDispatch();
   const { loading, error, product, productsCount } = useSelector(
     (state) => state.products
   );
 
+  // function call
+  let query = useQuery();
+
+  // setting value of keyword for search
+  const keyword = query.get("keyword");
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-    dispatch(getProduct());
-  }, [dispatch, error]);
+    dispatch(getProduct(keyword));
+  }, [dispatch, error, keyword]);
   return (
     <Fragment>
       <Paper

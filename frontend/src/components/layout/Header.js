@@ -29,6 +29,10 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { createRef } from "react";
+import SearchBox from "./Search/SearchBox";
+import { useDispatch } from "react-redux";
+import { getProduct } from "../../actions/productAction";
+import { useHistory } from "react-router-dom";
 //------------------------------------------------------------------
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -135,13 +139,35 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: "100%",
   color: "black",
 }));
-const Search = styled("div")((theme) => ({}));
+const Search = styled("form")((theme) => ({
+  width: "100%",
+}));
 //------------------------------------------------//
 export default function Header(props) {
+  const [query, setQuery] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [anchor, setAnchor] = useState("right");
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+  const searchSubmitHandler = (e) => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      history.push({
+        pathname: `/products`,
+        search: `?keyword=${keyword}`,
+      });
+    } else {
+      history.push({
+        pathname: `/products`,
+      });
+    }
+    console.log("chal gya hehe...");
+  };
+
   useEffect(() => {
-    console.log(window.screen.width);
+    // console.log(window.screen.width);
     if (window.screen.width < 900) {
       setAnchor("left");
     }
@@ -167,7 +193,7 @@ export default function Header(props) {
           </Toolbar>
         </Link>
         {/* Search Field */}
-
+        {/* <form onSubmit={searchSubmitHandler}> */}
         <Search
           className="search-box"
           sx={{
@@ -178,17 +204,28 @@ export default function Header(props) {
             borderRadius: "30px",
             height: { lg: "50px", md: "45px", sm: "40px", xs: "30px" },
           }}
+          onSubmit={searchSubmitHandler}
         >
           {/* Input Text Field */}
-          <StyledInputBase placeholder="Search for products....">
+          <StyledInputBase
+            placeholder="Search for products...."
+            onChange={(e) => setKeyword(e.target.value)}
+          >
             <Input />
           </StyledInputBase>
           {/* Search Icon */}
-          <IconButton size="large">
+          <IconButton size="large" type="submit" onClick={searchSubmitHandler}>
             <SearchIcon />
           </IconButton>
         </Search>
-
+        {/* </form> */}
+        <Link to={`/search`}>
+          <Box>
+            <IconButton size="large">
+              <SearchIcon />
+            </IconButton>
+          </Box>
+        </Link>
         {/* 4 Links */}
         {/* <Toolbar className="nav-links"> */}
         {/* Link 1 */}
@@ -243,8 +280,8 @@ export default function Header(props) {
             open={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
           >
-            <Box width={"250px"}>
-              <Typography>Drawer content</Typography>
+            <Box width={500}>
+              <SearchBox />
             </Box>
           </Drawer>
         </Link>

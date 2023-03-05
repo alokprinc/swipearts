@@ -10,7 +10,6 @@ const Home = () => {
       <Slider />
       <Product />
       <ShopByOccasions />
-      <ShowProducts />
     </Fragment>
   );
 };

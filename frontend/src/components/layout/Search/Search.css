@@ -1,0 +1,31 @@
+.searchBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchBox > input[type="text"] {
+  width: 100%;
+  border-radius: 5rem 0 0 5rem;
+  padding-left: 2rem;
+  border: 2px solid rgba(200, 195, 195, 0.199);
+}
+
+.searchBox > input[type="submit"] {
+  /* width: 20%; */
+  border-radius: 0 5rem 5rem 0;
+}
+
+.searchBox > input[type="submit"]:hover {
+  background-color: rgb(55, 97, 214);
+}
+
+@media screen and (max-width: 600px) {
+  .searchBox > input[type="text"] {
+  }
+
+  .searchBox > input[type="submit"] {
+  }
+}

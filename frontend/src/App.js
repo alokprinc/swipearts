@@ -1,14 +1,15 @@
 import Header from "./components/layout/Header";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { red, purple } from "@mui/material/colors";
 
 // import FlexTag from "./components/layout/utils/FlexTag";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
+import { ShowProducts } from "../src/components/layout/Products/ShowProducts";
 import ProductDetails from "./components/utils/ProductDetails";
 import Home from "./components/layout/Home/Home";
-import Footer from "./components/layout/Footer";
+import Footer from "./components/layout/footer/Footer";
+import SearchBox from "./components/layout/Search/SearchBox";
 
 //////////////////////////////////////////////////
 function App() {
@@ -34,10 +35,14 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/products/:id" element={<ProductDetails />} />
-        </Routes>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/products/:id" component={ProductDetails} />
+          {/* <Route exact path="/products/:occasion" element={<ShowProducts />} /> */}
+          <Route exact path="/products" component={ShowProducts} />
+          <Route path="/products/:keyword" component={ShowProducts} />
+          <Route exact path="/search" component={SearchBox} />
+        </Switch>
         <Footer />
       </ThemeProvider>
     </Router>
