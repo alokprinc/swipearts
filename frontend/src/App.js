@@ -10,6 +10,7 @@ import ProductDetails from "./components/utils/ProductDetails";
 import Home from "./components/layout/Home/Home";
 import Footer from "./components/layout/footer/Footer";
 import SearchBox from "./components/layout/Search/SearchBox";
+import LoginAndSignup from "./components/user/LoginAndSignup";
 
 //////////////////////////////////////////////////
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route exact path="/products" component={ShowProducts} />
           <Route path="/products/:keyword" component={ShowProducts} />
           <Route exact path="/search" component={SearchBox} />
+          <Route exact path="/signin" component={LoginAndSignup}></Route>
         </Switch>
         <Footer />
       </ThemeProvider>

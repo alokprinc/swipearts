@@ -144,11 +144,10 @@ const Search = styled("form")((theme) => ({
 }));
 //------------------------------------------------//
 export default function Header(props) {
-  const [query, setQuery] = useState("");
   const [keyword, setKeyword] = useState("");
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [anchor, setAnchor] = useState("right");
-  const dispatch = useDispatch();
 
   const history = useHistory();
   const searchSubmitHandler = (e) => {
@@ -163,6 +162,8 @@ export default function Header(props) {
         pathname: `/products`,
       });
     }
+    setKeyword("");
+
     console.log("chal gya hehe...");
   };
 
@@ -209,6 +210,7 @@ export default function Header(props) {
           {/* Input Text Field */}
           <StyledInputBase
             placeholder="Search for products...."
+            value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           >
             <Input />
@@ -219,13 +221,13 @@ export default function Header(props) {
           </IconButton>
         </Search>
         {/* </form> */}
-        <Link to={`/search`}>
+        {/* <Link to={`/search`}>
           <Box>
             <IconButton size="large">
               <SearchIcon />
             </IconButton>
           </Box>
-        </Link>
+        </Link> */}
         {/* 4 Links */}
         {/* <Toolbar className="nav-links"> */}
         {/* Link 1 */}
@@ -256,7 +258,7 @@ export default function Header(props) {
           </Tooltip>
         </Link>
         {/* Link 3 */}
-        <Link>
+        <Link to={"/signin"}>
           <Tooltip TransitionComponent={Zoom} title="Profile">
             <IconButton className="nav-link3" size="large">
               <AccountCircleIcon />

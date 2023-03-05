@@ -36,7 +36,8 @@ export const ShowProducts = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    dispatch(getProduct(keyword));
+    if (keyword) dispatch(getProduct(keyword));
+    else dispatch(getProduct(""));
   }, [dispatch, error, keyword]);
   return (
     <Fragment>
