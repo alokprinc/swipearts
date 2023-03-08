@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
+import { signup } from "../../actions/userActions";
+import { useDispatch } from "react-redux";
 
 function Copyright(props) {
   return (
@@ -35,13 +37,20 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const dispatch = useDispatch();
+  // const {}
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      name: data.get("firstName") + " " + data.get("lastName"),
       email: data.get("email"),
       password: data.get("password"),
     });
+    const name = data.get("firstName") + " " + data.get("lastName");
+    const email = data.get("email");
+    const password = data.get("password");
+    dispatch(signup(name, email, password));
   };
 
   return (
