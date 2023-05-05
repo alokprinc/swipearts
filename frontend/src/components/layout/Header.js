@@ -15,6 +15,7 @@ import {
   TextField,
   Input,
   Drawer,
+  SpeedDial,
 } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -23,16 +24,18 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/Person";
 import MenuIcon from "@mui/icons-material/Menu";
 import PropTypes from "prop-types";
-import { red, purple, blue, green, grey } from "@mui/material/colors";
+import Avatar from "@mui/material/Avatar";
+import { red, purple, blue, green, grey, yellow } from "@mui/material/colors";
 import Logo from "../../asset/logo.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { createRef } from "react";
 import SearchBox from "./Search/SearchBox";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../actions/productAction";
 import { useHistory } from "react-router-dom";
+import DrawerContent from "./DrawerContent/DrawerContent";
 //------------------------------------------------------------------
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -58,8 +61,9 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   background: "rgba( 255, 255, 255, 0.7 )",
   boxShadow: "0 2px 5px 0 rgba( 31, 38, 135, 0.37 )",
   backdropFilter: "blur( 4px )",
-
+  zIndex: 1,
   border: "1px solid rgba( 255, 255, 255, 0.18 )",
+
   [theme.breakpoints.only("xs")]: {
     flexDirection: "column",
     height: "3.8rem !important",
@@ -145,11 +149,41 @@ const Search = styled("form")((theme) => ({
 //------------------------------------------------//
 export default function Header(props) {
   const [keyword, setKeyword] = useState("");
-
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [anchor, setAnchor] = useState("right");
 
   const history = useHistory();
+  //================================
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
+  }
+  //===============================
   const searchSubmitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
@@ -166,7 +200,9 @@ export default function Header(props) {
 
     console.log("chal gya hehe...");
   };
-
+  const handleDrawerClick = () => {
+    setIsDrawerOpen(false);
+  };
   useEffect(() => {
     // console.log(window.screen.width);
     if (window.screen.width < 900) {
@@ -258,20 +294,26 @@ export default function Header(props) {
           </Tooltip>
         </Link>
         {/* Link 3 */}
-        <Link to={"/signin"}>
-          <Tooltip TransitionComponent={Zoom} title="Profile">
-            <IconButton className="nav-link3" size="large">
+        <Link
+          style={{ textDecoration: "none" }}
+          to={isAuthenticated ? "/accounts" : "/signin"}
+        >
+          <IconButton className="nav-link3" size="large">
+            {isAuthenticated ? (
+              <Avatar {...stringAvatar(user.name)} />
+            ) : (
               <AccountCircleIcon />
-            </IconButton>
-          </Tooltip>
+            )}
+          </IconButton>
         </Link>
+
         {/* Link 4 */}
         <Link>
           <Tooltip TransitionComponent={Zoom} title="Menu">
             <IconButton
               className="nav-link4"
               size="large"
-              aria-label=""
+              aria-label="drawer"
               onClick={() => setIsDrawerOpen(true)}
             >
               <MenuIcon />
@@ -282,8 +324,8 @@ export default function Header(props) {
             open={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
           >
-            <Box width={500}>
-              <SearchBox />
+            <Box>
+              <DrawerContent onClick={handleDrawerClick} />
             </Box>
           </Drawer>
         </Link>
